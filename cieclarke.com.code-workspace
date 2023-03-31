@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "path": "api.cieclarke.com"
+    },
+    {
+      "path": "www.cieclarke.com"
+    }
+  ],
+  "settings": {
+    "jest.disabledWorkspaceFolders": ["api.cieclarke.com"]
+  }
+}

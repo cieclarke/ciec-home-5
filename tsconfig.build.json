@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "compilerOptions": {
+    "forceConsistentCasingInFileNames": true
+  },
+  "references": [
+    {
+      "path": "api.cieclarke.com"
+    },
+    {
+      "path": "www.cieclarke.com"
+    }
+  ]
+}

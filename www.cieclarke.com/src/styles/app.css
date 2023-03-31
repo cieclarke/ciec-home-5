@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Stencil';
+  src: url('SavaroStencil-rqJK.ttf');
+}
+
+a {
+  @apply text-goldenrod-500;
+}
+
+body {
+  @apply bg-olive-900;
+  @apply font-stencil;
+}
+
+h1 {
+  @apply p-2;
+  @apply text-base;
+  @apply text-darkorange-300;
+  @apply no-underline;
+}
+
+h2 {
+  @apply p-2;
+  @apply text-base;
+  @apply text-darkorange-300;
+  @apply no-underline;
+}
+
+p {
+  @apply p-2;
+  @apply text-justify;
+  @apply text-goldenrod-100;
+}
+
+p > a {
+  @apply underline;
+}
+
+.menu-link {
+  @apply block;
+  @apply h-full;
+  @apply text-8xl;
+}
+
+.home-link {
+  @apply block;
+  @apply h-full;
+  @apply text-4xl;
+  @apply text-darkorange-800;
+}
+
+.banner-link {
+  @apply block;
+  @apply h-full;
+  @apply text-4xl;
+}
+
+#site {
+  @apply relative;
+  @apply mx-auto;
+}
+
+#hero {
+  @apply container;
+  @apply bg-hero;
+  @apply bg-bottom;
+  @apply bg-no-repeat;
+  @apply h-screen;
+  @apply min-w-full;
+}
+
+#home-menu {
+  @apply absolute;
+  @apply bottom-0;
+  @apply left-0;
+}
+
+#content {
+  @apply absolute;
+  @apply top-0;
+  @apply right-0;
+}
+
+#banner {
+  @apply absolute;
+  @apply top-0;
+  @apply left-0;
+}

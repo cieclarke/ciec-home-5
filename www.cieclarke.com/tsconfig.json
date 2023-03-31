@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "rootDir": "./",
+    "jsx": "react",
+    "lib": ["DOM"],
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true
+  },
+  "paths": {
+    "@cieclarke/api": ["../api.cieclarke.com"]
+  },
+  "exclude": ["node_modules", "dist"]
+}
