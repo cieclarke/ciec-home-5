@@ -1,3 +1,4 @@
+import { error } from 'console';
 import fetch from 'node-fetch';
 
 interface FlickrAlbumsAPIResponse {
@@ -49,13 +50,22 @@ export interface Album {
 export const getAlbums = async (): Promise<Album[]> => {
   const res = await get<FlickrAlbumsAPIResponse>('flickr.photosets.getList', {
     primary_photo_extras: 'url_m',
-    user_id: '67828456@N07',
-    api_key: '61777036f4ecf11adb192f7156c6e92e',
     per_page: 10,
     format: 'json',
     nojsoncallback: 1,
   });
   return mapResToAlbum(res);
+};
+
+const flickrAPIKeys = (): { [key: string]: string } => {
+  if (process.env.flickr_user_id && process.env.flickr_api_key) {
+    return {
+      user_id: process.env.flickr_user_id, //'67828456@N07',
+      api_key: process.env.flickr_api_key, //'61777036f4ecf11adb192f7156c6e92e',
+    };
+  }
+
+  throw new Error('env vars undefined');
 };
 
 const mapResToAlbum = (res: FlickrAlbumsAPIResponse): Album[] =>
@@ -65,12 +75,14 @@ const mapResToAlbum = (res: FlickrAlbumsAPIResponse): Album[] =>
   }));
 
 const get = async <T>(
-  method: string,
+  flickrMethod: string,
   options: { [key: string]: string | number },
 ) => {
-  const params = Object.entries(options).reduce((prev, [key, value]) => {
+  const keys = flickrAPIKeys() || {};
+  const c = [...Object.entries(options), ...Object.entries(keys)];
+  const params = c.reduce((prev, [key, value]) => {
     return `${prev}&${key}=${value}`;
-  }, `method=${method}`);
+  }, `method=${flickrMethod}`);
 
   const res = await fetch(`https://api.flickr.com/services/rest?${params}`);
   return <Promise<T>>res.json();

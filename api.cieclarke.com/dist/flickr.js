@@ -8,8 +8,6 @@ const node_fetch_1 = __importDefault(require("node-fetch"));
 const getAlbums = async () => {
     const res = await get('flickr.photosets.getList', {
         primary_photo_extras: 'url_m',
-        user_id: '67828456@N07',
-        api_key: '61777036f4ecf11adb192f7156c6e92e',
         per_page: 10,
         format: 'json',
         nojsoncallback: 1,
@@ -17,14 +15,25 @@ const getAlbums = async () => {
     return mapResToAlbum(res);
 };
 exports.getAlbums = getAlbums;
+const flickrAPIKeys = () => {
+    if (process.env.flickr_user_id && process.env.flickr_api_key) {
+        return {
+            user_id: process.env.flickr_user_id,
+            api_key: process.env.flickr_api_key, //'61777036f4ecf11adb192f7156c6e92e',
+        };
+    }
+    throw new Error('env vars undefined');
+};
 const mapResToAlbum = (res) => res.photosets.photoset.map((p) => ({
     id: p.id,
     url: p.primary_photo_extras.url_m,
 }));
-const get = async (method, options) => {
-    const params = Object.entries(options).reduce((prev, [key, value]) => {
+const get = async (flickrMethod, options) => {
+    const keys = flickrAPIKeys() || {};
+    const c = [...Object.entries(options), ...Object.entries(keys)];
+    const params = c.reduce((prev, [key, value]) => {
         return `${prev}&${key}=${value}`;
-    }, `method=${method}`);
+    }, `method=${flickrMethod}`);
     const res = await (0, node_fetch_1.default)(`https://api.flickr.com/services/rest?${params}`);
     return res.json();
 };

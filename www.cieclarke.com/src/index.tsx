@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import * as ReactDom from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import Home from './components/Home';
 import Container from './components/Container';

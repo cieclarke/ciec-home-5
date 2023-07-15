@@ -8,6 +8,6 @@
     }
   ],
   "settings": {
-    "jest.disabledWorkspaceFolders": ["api.cieclarke.com"]
+    "jest.disabledWorkspaceFolders": ["api.cieclarke.com", "www.cieclarke.com"]
   }
 }
