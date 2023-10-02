@@ -1,6 +1,10 @@
+const fs = require('fs');
+const plugin = require('tailwindcss/plugin');
+
 const backgroundImageURL =
   'https://live.staticflickr.com/4777/38983619730_220155925a_k.jpg';
 
+const imageAsBase64 = fs.readFileSync('src/image_store/GOPR0370.JPG', 'base64');
 module.exports = {
   content: ['./*.{ts,tsx}', './index.html'],
   theme: {
@@ -141,5 +145,14 @@ module.exports = {
       })
     }
   },
-  plugins: []
+  plugins: [
+    plugin(function ({ addComponents }) {
+      addComponents({
+        '.bg_lola_img': {
+          //backgroundImage: `url(data:image/jpg;base64,${imageAsBase64})`,
+          backgroundColor: 'red'
+        }
+      });
+    })
+  ]
 };

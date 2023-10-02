@@ -20,6 +20,7 @@ const devServer: webpackDevServer.Configuration = {
 
 const config: webpack.Configuration = {
   devServer,
+  devtool: 'inline-source-map',
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, 'dist'),
@@ -35,6 +36,10 @@ const config: webpack.Configuration = {
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader', 'postcss-loader']
+      },
+      {
+        test: /\.jpg$/i,
+        use: ['babel-loader', 'base64-img-css', 'jpg-base64-loader']
       }
     ]
   },
@@ -47,6 +52,15 @@ const config: webpack.Configuration = {
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
+  },
+  resolveLoader: {
+    alias: {
+      'jpg-base64-loader': path.resolve(
+        __dirname,
+        'src/lib/jpg-base64-loader.js'
+      ),
+      'base64-img-css': path.resolve(__dirname, 'src/lib/base64-img-css.js')
+    }
   }
 };
 export default config;
