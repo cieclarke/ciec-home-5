@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAlbums = void 0;
+exports.getPhotos = exports.getAllPhotos = exports.getAlbums = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const getAlbums = async () => {
     const res = await get('flickr.photosets.getList', {
@@ -15,6 +15,27 @@ const getAlbums = async () => {
     return mapResToAlbum(res);
 };
 exports.getAlbums = getAlbums;
+const getAllPhotos = async () => {
+    const albums = await (0, exports.getAlbums)();
+    const photos = await Promise.all(albums.map((a) => (0, exports.getPhotos)(a.id)));
+    return photos.flat();
+};
+exports.getAllPhotos = getAllPhotos;
+const getPhotos = async (albumId) => {
+    const res = await get('flickr.photosets.getPhotos', {
+        photoset_id: albumId,
+        extras: 'url_sq, url_t, url_s, url_m, url_o',
+        per_page: 10,
+        format: 'json',
+        nojsoncallback: 1,
+    });
+    console.log(res);
+    return res.photoset.photo.map((p) => ({
+        id: p.id,
+        url: p.url_m,
+    }));
+};
+exports.getPhotos = getPhotos;
 const flickrAPIKeys = () => {
     if (process.env.flickr_user_id && process.env.flickr_api_key) {
         return {

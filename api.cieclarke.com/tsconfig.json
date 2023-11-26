@@ -2,7 +2,8 @@
   "extends": "./node_modules/@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "Node16"
   },
   "exclude": ["node_modules", "dist"]
 }

@@ -59,10 +59,6 @@ p > a {
   @apply text-4xl;
 }
 
-.lola_test {
-  @extend bg_lola_img;
-}
-
 #site {
   @apply relative;
   @apply mx-auto;

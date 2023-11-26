@@ -1,5 +1,4 @@
-import { error } from 'console';
-import fetch from 'node-fetch';
+import axios from 'axios';
 
 interface FlickrAlbumsAPIResponse {
   photosets: {
@@ -71,15 +70,9 @@ export const getAlbums = async (): Promise<Album[]> => {
     primary_photo_extras: 'url_m',
     per_page: 10,
     format: 'json',
-    nojsoncallback: 1,
+    nojsoncallback: 1
   });
   return mapResToAlbum(res);
-};
-
-export const getAllPhotos = async (): Promise<Photo[]> => {
-  const albums = await getAlbums();
-  const photos = await Promise.all(albums.map((a) => getPhotos(a.id)));
-  return photos.flat();
 };
 
 export const getPhotos = async (albumId: string): Promise<Photo[]> => {
@@ -88,35 +81,38 @@ export const getPhotos = async (albumId: string): Promise<Photo[]> => {
     extras: 'url_sq, url_t, url_s, url_m, url_o',
     per_page: 10,
     format: 'json',
-    nojsoncallback: 1,
+    nojsoncallback: 1
   });
   console.log(res);
   return res.photoset.photo.map((p) => ({
     id: p.id,
-    url: p.url_m,
+    url: p.url_m
   }));
+};
+export const getAllPhotos = async (): Promise<Photo[]> => {
+  const albums = await getAlbums();
+  const photos = await Promise.all(albums.map((a) => getPhotos(a.id)));
+  return photos.flat();
 };
 
 const flickrAPIKeys = (): { [key: string]: string } => {
-  if (process.env.flickr_user_id && process.env.flickr_api_key) {
-    return {
-      user_id: process.env.flickr_user_id, //'67828456@N07',
-      api_key: process.env.flickr_api_key, //'61777036f4ecf11adb192f7156c6e92e',
-    };
-  }
-
-  throw new Error('env vars undefined');
+  console.log(__FLICKR_USER_ID__);
+  console.log('test');
+  return {
+    user_id: __FLICKR_USER_ID__, //'67828456@N07',
+    api_key: __FLICKR_API_KEY__ //'61777036f4ecf11adb192f7156c6e92e',
+  };
 };
 
 const mapResToAlbum = (res: FlickrAlbumsAPIResponse): Album[] =>
   res.photosets.photoset.map((p) => ({
     id: p.id,
-    url: p.primary_photo_extras.url_m,
+    url: p.primary_photo_extras.url_m
   }));
 
 const get = async <T>(
   flickrMethod: string,
-  options: { [key: string]: string | number },
+  options: { [key: string]: string | number }
 ) => {
   const keys = flickrAPIKeys() || {};
   const c = [...Object.entries(options), ...Object.entries(keys)];
@@ -124,6 +120,6 @@ const get = async <T>(
     return `${prev}&${key}=${value}`;
   }, `method=${flickrMethod}`);
 
-  const res = await fetch(`https://api.flickr.com/services/rest?${params}`);
-  return <Promise<T>>res.json();
+  const res = await axios<T>(`https://api.flickr.com/services/rest?${params}`);
+  return res.data;
 };
