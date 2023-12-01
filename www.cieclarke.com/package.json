@@ -23,7 +23,7 @@
     "@mui/styled-engine": "^5.14.18",
     "@mui/types": "^7.2.9",
     "@testing-library/react": "^13.4.0",
-    "@tsconfig/node20": "^20.1.2",
+    "@tsconfig/node16": "^16.1.1",
     "@types/html-webpack-plugin": "^3.2.6",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.13.0",
