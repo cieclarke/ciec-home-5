@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { ImageList, ImageListItem } from '@mui/material';
-import * as flickr from '../lib/flickr';
+import * as api from '../lib/api-cieclarke';
 
 export default function Photos(): React.JSX.Element {
   const [photos, setPhotos] = useState<Array<string>>([]);
   useEffect(() => {
     const fetch = async () => {
-      const allPhotos = await flickr.getAllPhotos();
+      const allPhotos = await api.getPhotos();
       setPhotos(allPhotos.map((p) => p.url));
     };
     fetch();

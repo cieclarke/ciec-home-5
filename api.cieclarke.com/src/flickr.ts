@@ -90,7 +90,7 @@ export const getPhotos = async (albumId: string): Promise<Photo[]> => {
     format: 'json',
     nojsoncallback: 1,
   });
-  console.log(res);
+
   return res.photoset.photo.map((p) => ({
     id: p.id,
     url: p.url_m,
@@ -100,8 +100,8 @@ export const getPhotos = async (albumId: string): Promise<Photo[]> => {
 const flickrAPIKeys = (): { [key: string]: string } => {
   if (process.env.flickr_user_id && process.env.flickr_api_key) {
     return {
-      user_id: process.env.flickr_user_id, //'67828456@N07',
-      api_key: process.env.flickr_api_key, //'61777036f4ecf11adb192f7156c6e92e',
+      user_id: process.env.flickr_user_id,
+      api_key: process.env.flickr_api_key,
     };
   }
 

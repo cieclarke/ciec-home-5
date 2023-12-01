@@ -29,7 +29,6 @@ const getPhotos = async (albumId) => {
         format: 'json',
         nojsoncallback: 1,
     });
-    console.log(res);
     return res.photoset.photo.map((p) => ({
         id: p.id,
         url: p.url_m,
@@ -40,7 +39,7 @@ const flickrAPIKeys = () => {
     if (process.env.flickr_user_id && process.env.flickr_api_key) {
         return {
             user_id: process.env.flickr_user_id,
-            api_key: process.env.flickr_api_key, //'61777036f4ecf11adb192f7156c6e92e',
+            api_key: process.env.flickr_api_key,
         };
     }
     throw new Error('env vars undefined');
